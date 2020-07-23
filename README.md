@@ -5,6 +5,9 @@
 
 
 - 平时工作中Linux接触的比较少，想把之前写的批处理改成shell脚本，以便进行学习
+---
+## Shell教程
+---
 
 ## Linux基础
 
@@ -149,14 +152,58 @@ root     22781 22698  0 00:54 pts/20   00:00:00 grep 11554
 
 ## Linux工具进阶
 
-### 程序构建
+### 程序构建（C、C++等编译型语言）
+
+- 源码的安装一般由3个步骤组成：配置(configure)、编译(make)、安装(make install)
 
 ### 程序调试
 
+- GDB是一个由GNU开源组织发布的、UNIX/LINUX操作系统下的、基于命令行的、功能强大的程序调试工具
+- pstack跟踪栈空间
+- strace分析系统调用
+- nm列出目标文件的符号清单
+- ogjdump工具用来显示二进制文件的信息，就是以一种可阅读的格式让你更多地了解二进制文件可能带有的附加信息
+- readelf和objdump命令提供的功能类似，但是它显示的信息更为具体，并且它不依赖BFD库(BFD库是一个GNU项目，它的目标就是希望通过一种统一的接口来处理不同的目标文件）
+- size 查看程序内存占用
+- file 文件类型查询
+- strings 查询数据中的文本信息（有点意思）
+- fuser 显示文件使用者（fuser -m -v /dev/sdb1，查看哪个用户哪个进程占用设备/dev/sdb1）
+- xxd 十六进制显示数据
+- 通常使用od命令查看特殊格式的文件内容。通过指定该命令的不同选项可以以十进制、八进制、十六进制和ASCII码来显示文件
+
 ### 性能优化
 
-## 工具参考篇
+- top分析系统瓶颈（%id：空闲CPU时间百分比，如果这个值过低，表明系统CPU存在瓶颈；%wa：等待I/O的CPU时间百分比，如果这个值过高，表明IO存在瓶颈；）
+- free、vmstat分析内存瓶颈
+- iostat分析IO瓶颈
+- pstack和pstrace分析进程调用
+- 优化程序代码（二八法则、编完代码，再优化）
+- valgrind调试内存泄漏的工具
+- OProfile: Linux 平台上的一个功能强大的性能分析工具
+- sar比较全面的性能分析工具
 
+## 工具参考篇（包含一些实例）
+
+- gdb 调试利器
+- ldd 查看程序依赖库
+- lsof 一切皆文件
+- ps 进程查看器
+- pstack 跟踪进程栈
+- strace 跟踪进程中的系统调用
+- ipcs 查询进程间通信状态
+- top linux下的任务管理器
+- free 查询可用内存
+- vmstat 监视内存使用情况
+- iostat 监视I/O子系统
+- sar 找出系统瓶颈的利器
+- readelf elf文件格式分析
+- objdump 二进制文件分析
+- nm 目标文件格式分析
+- size 查看程序内存映像大小
+- wget 文件下载
+- scp 跨机远程拷贝
+- crontab 定时任务
+---
 ## 参考链接
 
 - https://github.com/qinjx/30min_guides/blob/master/shell.md
