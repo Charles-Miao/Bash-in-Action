@@ -150,17 +150,111 @@ str	检测字符串是否为空，不为空返回 true。	[ $a ] 返回 true。
 
 ### Shell注释
 
+- 以“#”开头的行就是注释，会被解释器忽略。如果在开发过程中，遇到大段的代码需要临时注释起来，过一会儿又取消注释，怎么办呢？每一行加个#符号太费力了，**可以把这一段要注释的代码用一对花括号括起来，定义成一个函数**，没有地方调用这个函数，这块代码就不会执行，达到了和注释一样的效果。
+
 ### Shell字符串
+
+- 单引号
+- 双引号（优点： 双引号里可以有变量 双引号里可以出现转义字符）
+- 字符拼接
+- 获取字符串长度，echo ${#string}
+- 提取子字符串，echo ${string:1:4}
+- 查找子字符串，echo `expr index "$string" is`
 
 ### Shell数组
 
+- 定义数组
+
+```shell
+array_name=(value0 value1 value2 value3)
+#可以不使用连续的下标，而且下标的范围没有限制
+array_name[0]=value0
+array_name[1]=value1
+array_name[5]=value2
+```
+
+- 读取数组
+
+```shell
+#读取所有元素
+${array_name[*]}
+${array_name[@]}
+```
+
+- 获取数组长度
+
+```shell
+# 取得数组元素的个数
+length=${#array_name[@]}
+# 取得数组单个元素的长度
+lengthn=${#array_name[n]}
+```
+
 ### echo命令
+
+- 显示转义字符
+- 显示变量
+- 显示换行，\n
+- 显示不换行，\c
+- 显示命令执行结果，使用反向单引号``
 
 ### printf命令
 
+- printf 命令用于格式化输出， 是echo命令的增强版
+- printf 不像 echo 那样会自动换行，必须显式添加换行符(\n)
+- 功能和用法类似c语言中的printf，如下为不同部分：
+```shell
+#printf 命令不用加括号
+#format-string 可以没有引号，但最好加上，单引号双引号均可。
+#参数多于格式控制符(%)时，format-string 可以重用，可以将所有参数都转换。
+#arguments 使用空格分隔，不用逗号。
+```
+- %s代表字符串，默认为NULL，%d代表数字，默认为0。根据 POSIX 标准，浮点格式%e、%E、%f、%g与%G是“不需要被支持”。这是因为 awk 支持浮点预算，且有它自己的 printf 语句。这样 Shell 程序中需要将浮点数值进行格式化的打印时，可使用小型的 awk 程序实现。然而，内建于 bash、ksh93 和 zsh 中的 printf 命令都支持浮点格式
+
 ### if else语句
 
+- if ... fi 语句
+- if ... else ... fi 语句
+- if ... elif ... else ... fi 语句
+- test 命令用于检查某个条件是否成立，与方括号([ ])类似
+
 ### case esac语句
+
+```shell
+echo 'Input a number between 1 to 4'
+echo 'Your number is:\c'
+read aNum
+case $aNum in
+    1)  echo 'You select 1'
+    ;;
+    2)  echo 'You select 2'
+    ;;
+    3)  echo 'You select 3'
+    ;;
+    4)  echo 'You select 4'
+    ;;
+    *)  echo 'You do not select a number between 1 to 4'
+    ;;
+esac
+```
+
+```shell
+#!/bin/bash
+
+option="${1}"
+case ${option} in
+   -f) FILE="${2}"
+      echo "File name is $FILE"
+      ;;
+   -d) DIR="${2}"
+      echo "Dir name is $DIR"
+      ;;
+   *) 
+      echo "`basename ${0}`:usage: [-f file] | [-d directory]"
+      exit 1 # Command to come out of the program with status 1
+      ;;
+esac
+```
 
 ### for循环
 
