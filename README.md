@@ -258,21 +258,113 @@ esac
 
 ### for循环
 
+```shell
+for loop in 1 2 3 4 5
+do
+    echo "The value is: $loop"
+done
+```
+
 ### while循环
+
+```shell
+echo 'type <CTRL-D> to terminate'
+echo -n 'enter your most liked film: '
+while read FILM
+do
+    echo "Yeah! great film the $FILM"
+done
+```
 
 ### until循环
 
+```shell
+#!/bin/bash
+a=0
+until [ ! $a -lt 10 ]
+do
+   echo $a
+   a=`expr $a + 1`
+done
+```
+
 ### 跳出循环
+
+```shell
+break ;; #跳出循环
+break n ;; #跳出n层循环
+continue ;; #跳出当前循环
+continue n ;; #跳出几层循环，并继续
+```
 
 ### 函数
 
+```shell
+#函数返回值，可以显式增加 return 语句；如果不加，会将最后一条命令运行结果作为返回值。
+
+#Shell 函数返回值只能是整数，一般用来表示函数执行成功与否，0表示成功，其他值表示失败。如果 return 其他数据，比如一个字符串，往往会得到错误提示：“numeric argument required”。
+
+#如果一定要让函数返回字符串，那么可以先定义一个变量，用来接收函数的计算结果，脚本在需要的时候访问这个变量来获得函数返回值。
+
+function function_name () {
+    list of commands
+    [ return value ]
+}
+```
+
 ### 函数参数
+
+```shell
+# $n 第几个参数，当 n>=10 时，需要使用 ${n} 来获取参数
+# $#	传递给函数的参数个数。
+# $*	显示所有传递给函数的参数。
+# $@	与 $* 相同，但是略有区别，请查看 Shell 特殊变量。
+# $?	函数的返回值。
+```
 
 ### 输入和输出重定向
 
+#### 重定向到文件>
+#### 从文件输入<
+#### 重定向深入讲解
+- 标准输入文件(stdin)：stdin 的文件描述符为0，Unix 程序默认从 stdin 读取数据。
+- 标准输出文件(stdout)：stdout 的文件描述符为1，Unix 程序默认向 stdout 输出数据。
+- 标准错误文件(stderr)：stderr 的文件描述符为2，Unix 程序会向 stderr 流中写入错误信息。
+```shell
+# command > file	将输出重定向到 file。
+# command < file	将输入重定向到 file。
+# command >> file	将输出以追加的方式重定向到 file。
+# n > file	将文件描述符为 n 的文件重定向到 file。
+# n >> file	将文件描述符为 n 的文件以追加的方式重定向到 file。
+# n >& m	将输出文件 m 和 n 合并。
+# n <& m	将输入文件 m 和 n 合并。
+# << tag	将开始标记 tag 和结束标记 tag 之间的内容作为输入。
+$command > file 2>&1 #将 stdout 和 stderr 合并后重定向到 file
+```
+#### Here Docment
+- 它的作用是将两个 delimiter 之间的内容(document) 作为输入传递给 command。
+```shell
+command << delimiter
+    document
+delimiter
+```
+#### /dev/null文件
+
+- 重定向到此文件，则屏幕上则不会有输出结果
+
+```shell
+#屏蔽stdout和stderr
+$ command > /dev/null 2>&1文件
+```
+
+
 ### 文件包含
 
-
+```shell
+. filename
+#或
+source filename
+```
 
 
 ---
