@@ -10,7 +10,7 @@
 - 增量拷贝：-a选项，等同于-rlptgoD
 - 镜像拷贝：-delete选项
 - 选择性拷贝：--exclude-from=File，剔除掉File中指定模式的文件和文件夹
-- 练习脚本：https://github.com/Charles-Miao/Bash-in-Action/tree/master/rsync/sync_files.sh
+- 练习脚本：https://github.com/Charles-Miao/Bash-in-Action/tree/master/SYNCFILES/sync_files.sh
 - 参考链接：https://segmentfault.com/a/1190000015669114
 
 ### scp同步文件
