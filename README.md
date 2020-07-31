@@ -43,6 +43,19 @@ IFS=$MY_SAVEIFS
 
 ### 删除过期文件
 
+- 练习脚本：https://github.com/Charles-Miao/Bash-in-Action/tree/master/DELOLDFILE/del_old_files.sh
+
+```shell
+# /mnt/e/Bash-in-Action/ 为需要删除的文件目录
+# -mtime +1 为大于1天以上（mtime为modify time，指文件修改时间）
+# atime为access time，即为文件被读取或者执行的时间
+# ctime为change time，文件状态改变时间
+# -name "*.*" 为文件名模糊匹配
+# -exec 执行
+# rm -f {} \; 删除上面匹配到的文件，关于\;的解释可以参考连接：https://qastack.cn/ubuntu/339015/what-does-mean-in-a-linux-command
+find /mnt/e/Bash-in-Action/ -mtime +1 -name "*.*" -exec rm -rf {} \;
+```
+
 ## 磁盘压缩
 ### 空间检查
 ### 压缩和发送
