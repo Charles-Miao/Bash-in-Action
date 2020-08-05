@@ -58,7 +58,45 @@ find /mnt/e/Bash-in-Action/ -mtime +1 -name "*.*" -exec rm -rf {} \;
 
 ## 磁盘压缩
 ### 空间检查
-### 压缩和发送
+- 显示特定目录中，文件大小居前十的目录，https://blog.csdn.net/qq_36588424/article/details/104098675
+
+```shell
+#!/bin/bash
+# du，查看某个目录的大小
+# sort，排序
+# sed语法参考：https://man.linuxde.net/sed
+# sed '{11,$d}'，删除11行到最后一行
+# sed '{=}'，打印当前行号码
+# sed '表达式; 表达式'，组合多个表达
+# N 追加下一个输入行到模板块后面并在二者间嵌入一个新行，改变当前行号码
+# sed 's/要被取代的字串/新的字串/g'，替换命令
+# gawk 读取文本行的数据，然后处理并显示数据
+CHECK_DIR="/var/log /home"
+
+DATE=$(date '+%m%d%y')
+
+exec >disk_space_$DATE.rpt #对以下所有输出重定向到文件
+
+echo "Top Ten Disk Space Usage"
+echo "for $CHECK_DIR Directories"
+
+for DIR_CHECK in $CHECK_DIR
+do
+ echo ""
+ echo "The $DIR_CHECK Directory"
+ du -Sh $DIR_CHECK 2>/home//charles/error.txt | #报错信息重定向到文件
+ sort -rn| sed '{11,$D;=}'| #取前十名并且标注行号
+ sed 'N;s/\n/ /'| #N：提前读取下一行，把换行符去掉
+ gawk '{printf $1 ":" "\t" $2 "\t" $3 "\n"}'
+done
+exit
+```
+
+- 定期查询特定目录的空间大小，https://blog.csdn.net/humanking7/article/details/89763372
+- 空间、网络流量、新文件监控，https://www.iambigboss.top/post/44021_1_1.html
+- 练习脚本：https://github.com/Charles-Miao/Bash-in-Action/tree/master/HDDSPACECHK/hdd_space_check.sh
+
+### 压缩log
 
 ## 网络信息
 ### 获取网卡的基本信息，并检查网络的连通性
