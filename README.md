@@ -98,8 +98,17 @@ exit
 
 ### 压缩log
 
+- 练习脚本：https://github.com/Charles-Miao/Bash-in-Action/tree/master/LOGCOMPRESS/log_compress.sh
+
 ## 网络信息
 ### 获取网卡的基本信息，并检查网络的连通性
+
+- 获取网卡型号
+```shell
+lspci | grep Ethernet | cut -f3 -d':' | cut -f1 -d'(' | uniq
+```
+- 练习脚本：https://github.com/Charles-Miao/Bash-in-Action/tree/master/NETWORK
+
 ### 网络进出流量监测
 
 ## 系统管理
