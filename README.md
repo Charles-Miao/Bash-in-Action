@@ -59,12 +59,12 @@ find /mnt/e/Bash-in-Action/ -mtime +1 -name "*.*" -exec rm -rf {} \;
 ## 磁盘压缩
 ### 空间检查
 - 显示特定目录中，文件大小居前十的目录，https://blog.csdn.net/qq_36588424/article/details/104098675
+- sed语法参考：https://man.linuxde.net/sed
 
 ```shell
 #!/bin/bash
 # du，查看某个目录的大小
 # sort，排序
-# sed语法参考：https://man.linuxde.net/sed
 # sed '{11,$d}'，删除11行到最后一行
 # sed '{=}'，打印当前行号码
 # sed '表达式; 表达式'，组合多个表达
@@ -111,9 +111,50 @@ lspci | grep Ethernet | cut -f3 -d':' | cut -f1 -d'(' | uniq
 
 ### 网络进出流量监测
 
+1. 使用工具：
+
+- 监控总体带宽使用――nload、bmon、slurm、bwm-ng、cbm、speedometer和netload
+- 监控总体带宽使用（批量式输出）――vnstat、ifstat、dstat和collectl
+- 每个套接字连接的带宽使用――iftop、iptraf、tcptrack、pktstat、netwatch和trafshow
+- 每个进程的带宽使用――nethogs
+- 参考链接：https://www.cnblogs.com/jins-note/p/9850439.html
+
+2. 使用ifconfig，每隔10秒获取一次网卡流量状况，并获取差值
+
+3. 使用sar -n DEV指令
+
+```shell
+sar -n DEV 1 10 | grep Average | grep wifi0 | awk '{print "wifi0 input: "$5"kB""\n""wifi0 output: "$6"kB"}'
+```
+
+- rxpck/s 每秒接收的包的数量
+- txpck/s 每秒发出的包的数量
+- rxKB/s 每秒接收的数据量，单位KByte 1KB=1000byte=8000bit
+- txKB/s 每秒发出的数据量，单位KByte
+
 ## 系统管理
 ### 系统信息抓取
+
+```shell
+#获取CPU名称
+cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq
+#获取CPU数量，wc -l计算行数
+cat /proc/cpuinfo | grep 'physical id' | sort | uniq | wc -l
+#计算cpu核数
+cat /proc/cpuinfo | grep 'cpu cores' | cut -f2 -d: | uniq
+#获取系统版本
+cat /etc/lsb-release | grep "DISTRIB_DESCRIPTION" | awk -F"=" '{print $2}'
+#获取Linux详细版本号
+uname -a
+#获取系统安装日期
+echo 'XXX' | sudo -S passwd -S root | awk -F " " '{print $3}'
+```
+
 ### 时间同步
+
+```shell
+echo 'XXX' | sudo -S ntpdate -u 172.30.30.7
+```
 
 ## 性能和进程监控
 
@@ -121,10 +162,34 @@ lspci | grep Ethernet | cut -f3 -d':' | cut -f1 -d'(' | uniq
 ### 服务监控
 ### 所有进程数量，正在运行的进程数量
 
-## 用户管理
+## 用户管理()
 
 ### 登录用户的数量
+```shell
+#获取登录用户数量
+who | wc -l
+#w命令查看登录用户正在使用的进程信息
+w
+#who获取正在登录的用户名
+who | cut -d' ' -f1 | sort | uniq
+#whoami命令用于显示登入的用户名，等同于id -un和logname
+whoami
+#last命令可用于显示特定用户登录系统的历史记录
+last charles
+#列出所有用户名
+less /etc/passwd
+getent passwd | awk -F: '{ print $1}'
+#查询用户最后一次登录历史
+lastlog -u charles
+#ac获取用户连接的时间（小时）
+ac -p
+```
+
 ### passwd checksum检查
+
+```shell
+md5sum /etc/passwd | awk -F" " '{print $1}'
+```
 
 ## 其他工具应用
 ### 发送邮件
