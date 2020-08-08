@@ -159,8 +159,21 @@ echo 'XXX' | sudo -S ntpdate -u 172.30.30.7
 ## 性能和进程监控
 
 ### CPU和内存使用率
+
+- 常用工具可以参考：https://github.com/Charles-Miao/Bash-in-Action/blob/master/Linux%20Tool%20%26%20Shell%20Study%20Notes.md
+
+- CPU和内存使用率可以参考：https://www.linuxprobe.com/bash-sar-cpu-memory.html ，也可以使用sar指令获取，命令可以参考“网络进出流量监测”那一节
+
 ### 服务监控
-### 所有进程数量，正在运行的进程数量
+
+- monit，在 Linux 上使用的最灵活、功能最强大的监视工具之一
+- 其他shell脚本基本都通过监控进程（ps），监控端口（netstat）等方法进行实现
+
+### 进程数量
+
+```shell
+ps -ef | wc -l
+```
 
 ## 用户管理()
 
@@ -193,8 +206,46 @@ md5sum /etc/passwd | awk -F" " '{print $1}'
 
 ## 其他工具应用
 ### 发送邮件
+
+- 使用sendemail指令，参考链接：https://www.jianshu.com/p/6a7e764192bd
+
+```shell
+#!/bin/bash
+email_reciver="oneway@163.com lin@126.com"
+#发送者邮箱
+email_sender=373850874@qq.com
+#邮箱用户名
+email_username=373850874
+#邮箱密码
+#使用qq邮箱进行发送需要注意：首先需要开启：POP3/SMTP服务，其次发送邮件的密码需要使用在开启POP3/SMTP服务时候腾讯提供的第三方客户端登陆码。
+email_password=mialbjhzsmuobigf
+
+file1_path="附件一路径"
+file2_path="附件二路径"
+
+#smtp服务器地址
+email_smtphost=smtp.qq.com
+
+email_title="iOS客户端更新"
+email_content="谢谢!"
+./sendEmail -f ${email_sender} -t ${email_reciver} -s ${email_smtphost} -u ${email_title} -xu ${email_username} -xp ${email_password} -m ${email_content} -a ${file1_path} ${file2_path} -o message-charset=utf-8
+```
+
 ### FTP传输文件
-### SVN自动导出
-### 检查SVN
+
+- 参考链接：https://www.jianshu.com/p/c3d57fd735b8
+
+```shell
+ #!/bin/bash
+FTILE_NAME=$1
+ftp -n <<- EOF
+open 59.151.127.55
+user username  password
+bin
+put $FTILE_NAME
+bye
+EOF
+```
+
 
 
